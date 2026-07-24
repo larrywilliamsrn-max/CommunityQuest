@@ -22,16 +22,16 @@ function OrganizerExperience() {
   const approvedCount = participants.filter((participant) => participant.status === 'Approved').length
 
   return (
-    <div className="space-y-6">
-      <section className="rounded-[32px] border border-white/70 bg-white/80 p-6 shadow-[0_25px_70px_-35px_rgba(15,23,42,0.35)] backdrop-blur">
+    <div className="space-y-4">
+      <section className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-card)] p-5 backdrop-blur">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-medium uppercase tracking-[0.3em] text-slate-400">Organizer studio</p>
-            <h1 className="mt-2 text-3xl font-semibold text-slate-900">Approve participation and monitor momentum</h1>
-            <p className="mt-2 text-slate-600">Keep the live experience transparent with human review and instant stats.</p>
+            <p className="text-sm font-medium uppercase tracking-[0.3em] text-[var(--text-secondary)]">Organizer studio</p>
+            <h1 className="mt-2 text-3xl font-semibold text-[var(--text-primary)]">Approve participation and monitor momentum</h1>
+            <p className="mt-2 text-[var(--text-secondary)]">Keep the live experience transparent with human review and instant stats.</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-fuchsia-500 px-4 py-3 text-white shadow-lg">
-            <p className="text-sm uppercase tracking-[0.25em] text-blue-100">Live status</p>
+          <div className="rounded-xl bg-[var(--surface-card)] border border-[var(--border-default)] px-4 py-3 text-[var(--text-primary)]">
+            <p className="text-sm uppercase tracking-[0.25em] text-[var(--text-secondary)]">Live status</p>
             <p className="mt-1 text-sm font-semibold">{notice}</p>
           </div>
         </div>
@@ -43,11 +43,11 @@ function OrganizerExperience() {
         <StatCard label="Active Booths" value="12" />
       </section>
 
-      <section className="rounded-[28px] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_-35px_rgba(15,23,42,0.3)]">
+      <section className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-card)] p-5">
         <h2 className="text-xl font-semibold text-slate-900">Approval queue</h2>
         <div className="mt-4 space-y-3">
           {participants.map((participant) => (
-            <div key={participant.id} className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 md:flex-row md:items-center md:justify-between">
+            <div key={participant.id} className="flex flex-col gap-3 rounded-lg border border-[var(--border-default)] bg-[var(--surface-base)] p-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="font-semibold text-slate-900">{participant.name}</p>
                 <p className="text-sm text-slate-500">XP {participant.xp} • Tokens {participant.tokens}</p>
@@ -59,7 +59,7 @@ function OrganizerExperience() {
                 <button
                   type="button"
                   onClick={() => handleApprove(participant.name)}
-                  className="rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white"
+                  className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white"
                 >
                   Approve {participant.name}
                 </button>
@@ -74,8 +74,8 @@ function OrganizerExperience() {
 
 function StatCard({ label, value }) {
   return (
-    <div className="rounded-[24px] border border-slate-100 bg-slate-950 p-4 text-white shadow-lg">
-      <p className="text-sm text-slate-400">{label}</p>
+    <div className="rounded-lg border border-[var(--border-default)] bg-[var(--surface-inverted)] p-4 text-white">
+      <p className="text-sm text-[var(--text-secondary)]">{label}</p>
       <p className="mt-2 text-2xl font-semibold">{value}</p>
     </div>
   )

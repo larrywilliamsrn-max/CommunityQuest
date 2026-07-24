@@ -38,16 +38,16 @@ function EventMapPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <section className="rounded-[32px] border border-white/70 bg-white/80 p-6 shadow-[0_25px_70px_-35px_rgba(15,23,42,0.35)] backdrop-blur">
+    <div className="space-y-4">
+      <section className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-card)] p-5 backdrop-blur">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.3em] text-slate-400">Event map</p>
             <h1 className="mt-2 text-3xl font-semibold text-slate-900">Treasure hunt trail</h1>
             <p className="mt-2 text-slate-600">Each booth opens a clue, and each clue brings you closer to the final reward.</p>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-fuchsia-500 px-4 py-3 text-white shadow-lg">
-            <p className="text-sm uppercase tracking-[0.25em] text-blue-100">Current clue</p>
+          <div className="rounded-xl bg-[var(--surface-card)] border border-[var(--border-default)] px-4 py-3 text-[var(--text-primary)]">
+            <p className="text-sm uppercase tracking-[0.25em] text-[var(--text-secondary)]">Current clue</p>
             <p className="mt-1 text-sm font-semibold">{activeClue}</p>
           </div>
         </div>
@@ -55,23 +55,23 @@ function EventMapPage() {
 
       <section className="grid gap-4 lg:grid-cols-3">
         {booths.map((booth) => (
-          <article key={booth.id} className="rounded-[28px] border border-white/70 bg-white/80 p-5 shadow-[0_20px_60px_-35px_rgba(15,23,42,0.3)]">
+          <article key={booth.id} className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-card)] p-5">
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 className="text-xl font-semibold text-slate-900">{booth.name}</h2>
                 <p className="mt-2 text-sm text-slate-500">{booth.description}</p>
               </div>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
+              <span className="rounded-full bg-[var(--surface-base)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
                 {booth.status}
               </span>
             </div>
-            <div className="mt-4 rounded-2xl bg-slate-50 p-3 text-sm text-slate-600">
+            <div className="mt-4 rounded-xl bg-[var(--surface-base)] p-3 text-sm text-[var(--text-secondary)]">
               {booth.clue}
             </div>
             <button
               type="button"
               onClick={() => handleCompleteBooth(booth.id)}
-              className="mt-4 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white"
+              className="mt-4 rounded-xl bg-[var(--surface-inverted)] px-4 py-2 text-sm font-semibold text-white"
             >
               {booth.status === 'Completed' ? 'Completed' : `Complete ${booth.name}`}
             </button>
