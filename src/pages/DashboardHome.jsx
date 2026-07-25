@@ -13,9 +13,9 @@ function DashboardHome() {
   const { role, login } = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const handleEnter = (selectedRole, path) => {
+  const handleEnter = (selectedRole) => {
     login(selectedRole)
-    navigate(path)
+    navigate('/login', { state: { selectedRole } })
   }
 
   // Always show workspace chooser first. Current role is shown in the app shell after selection.
@@ -33,7 +33,7 @@ function DashboardHome() {
               <button
                 key={item.role}
                 type="button"
-                onClick={() => handleEnter(item.role, `/${item.role}`)}
+                onClick={() => handleEnter(item.role)}
                 className="inline-flex items-center gap-2 rounded-md border border-[var(--border-default)] bg-[var(--surface-inverted)] px-4 py-2 text-sm font-semibold text-white"
               >
                 Enter as {item.title}

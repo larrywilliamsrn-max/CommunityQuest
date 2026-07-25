@@ -1,11 +1,36 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { participantProfile, questCards as initialQuestCards, leaderboard as initialLeaderboard } from '../data/mockData'
 import { mockCompleteQuest } from '../services/mockBlockchain'
 
+const STORAGE_KEY = 'questchain-participant-progress'
+
 function ParticipantDashboard() {
-  const [profile, setProfile] = useState(participantProfile)
-  const [quests, setQuests] = useState(initialQuestCards)
+  const [profile, setProfile] = useState(() => {
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    if (!stored) return participantProfile
+
+    try {
+      return JSON.parse(stored)
+    } catch {
+      return participantProfile
+    }
+  })
+  const [quests, setQuests] = useState(() => {
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    if (!stored) return initialQuestCards
+
+    try {
+      return JSON.parse(stored).quests ?? initialQuestCards
+    } catch {
+      return initialQuestCards
+    }
+  })
   const [leaderboard] = useState(initialLeaderboard)
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ profile, quests }))
+  }, [profile, quests])
 
   const progressPercent = Math.round((profile.xp / profile.nextLevelXp) * 100)
 
@@ -24,6 +49,18 @@ function ParticipantDashboard() {
           : quest,
       ),
     )
+  }
+
+  const handleQuestNavigate = (questId, title) => {
+    if (title === 'Ask a Question') {
+      setQuests((current) =>
+        current.map((quest) =>
+          quest.id === questId
+            ? { ...quest, status: 'Completed', detail: 'Quest completed — you joined the community lounge.', reward: '+20 XP +10 Tokens' }
+            : quest,
+        ),
+      )
+    }
   }
 
   return (
@@ -79,18 +116,33 @@ function ParticipantDashboard() {
               </button>
             </div>
             <div className="mt-4 space-y-3">
-              {quests.map((quest) => (
-                <div key={quest.id} className="flex items-center justify-between rounded-xl border border-[var(--border-default)] bg-[var(--surface-card)] px-4 py-3">
-                  <div>
-                    <p className="font-semibold text-[var(--text-primary)]">{quest.title}</p>
-                    <p className="text-sm text-[var(--text-secondary)]">{quest.detail}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="rounded-full bg-[var(--surface-base)] px-3 py-1 text-xs font-semibold text-[var(--text-secondary)]">{quest.status}</p>
-                    <p className="mt-2 text-sm font-medium text-[var(--semantic-info)]">{quest.reward}</p>
-                  </div>
-                </div>
-              ))}
+              {quests.map((quest) => {
+                const targetPath = quest.title === 'Register'
+                  ? '/participant/register'
+                  : quest.title === 'Attend Keynote'
+                    ? '/participant/keynote'
+                    : quest.title === 'Treasure Hunt'
+                      ? '/participant/treasure-hunt'
+                      : '/participant'
+
+                return (
+                  <Link
+                    key={quest.id}
+                    to={targetPath}
+                    onClick={() => handleQuestNavigate(quest.id, quest.title)}
+                    className="flex items-center justify-between rounded-xl border border-[var(--border-default)] bg-[var(--surface-card)] px-4 py-3 transition hover:border-[var(--semantic-info)] hover:bg-[var(--surface-base)]"
+                  >
+                    <div>
+                      <p className="font-semibold text-[var(--text-primary)]">{quest.title}</p>
+                      <p className="text-sm text-[var(--text-secondary)]">{quest.detail}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="rounded-full bg-[var(--surface-base)] px-3 py-1 text-xs font-semibold text-[var(--text-secondary)]">{quest.status}</p>
+                      <p className="mt-2 text-sm font-medium text-[var(--semantic-info)]">{quest.reward}</p>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </div>

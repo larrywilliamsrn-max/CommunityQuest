@@ -1,5 +1,5 @@
 export const participantProfile = {
-  name: 'Ava Chen',
+  name: 'Amina Okafor',
   level: 'Explorer',
   xp: 240,
   nextLevelXp: 320,

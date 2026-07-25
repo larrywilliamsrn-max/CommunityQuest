@@ -1,19 +1,29 @@
-import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../AuthContext'
 
 const roles = [
   {
     title: 'Participant',
     description: 'Track quests, earn XP, and unlock badges in real time.',
-    href: '/participant',
+    role: 'participant',
   },
   {
     title: 'Organizer',
     description: 'Create quests, manage booths, and monitor participation live.',
-    href: '/organizer',
+    role: 'organizer',
   },
 ]
 
 function LandingPage() {
+  const { login } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  const handleEnter = (selectedRole) => {
+    login(selectedRole)
+    navigate('/login', { state: { selectedRole } })
+  }
+
   return (
     <section className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
       <div className="surface-card rounded-xl p-5 backdrop-blur">
@@ -28,13 +38,14 @@ function LandingPage() {
         </p>
         <div className="mt-7 flex flex-wrap gap-3">
           {roles.map((role) => (
-            <Link
+            <button
               key={role.title}
-              to={role.href}
+              type="button"
+              onClick={() => handleEnter(role.role)}
               className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-inverted)] px-4 py-2 text-sm font-semibold text-white"
             >
               Enter as {role.title}
-            </Link>
+            </button>
           ))}
         </div>
       </div>

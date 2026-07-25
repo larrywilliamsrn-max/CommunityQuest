@@ -7,14 +7,17 @@ export const AuthContext = createContext({
 })
 
 export function AuthProvider({ children }) {
-  const [role, setRole] = useState(null)
+  const [role, setRole] = useState(() => {
+    if (typeof window === 'undefined') return null
+    return window.localStorage.getItem('questchain-role') ?? null
+  })
 
   useEffect(() => {
-    const storedRole = localStorage.getItem('questchain-role')
-    if (storedRole) {
+    const storedRole = window.localStorage.getItem('questchain-role')
+    if (storedRole && role !== storedRole) {
       setRole(storedRole)
     }
-  }, [])
+  }, [role])
 
   const login = (newRole) => {
     setRole(newRole)
