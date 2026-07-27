@@ -1,0 +1,10 @@
+{
+  "network": "testnet",
+  "deployer": "0x0000000000000000000000000000000000000000",
+  "contracts": {
+    "EventPassNFT": { "address": "0x...", "abi": [] },
+    "ParticipationToken": { "address": "0x...", "abi": [] },
+    "AchievementBadge": { "address": "0x...", "abi": [] },
+    "QuestRegistry": { "address": "0x...", "abi": [] }
+  }
+}
